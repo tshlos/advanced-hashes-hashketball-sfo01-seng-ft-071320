@@ -1,4 +1,7 @@
 # Write your code below game_hash
+require './hashketball.rb'
+require 'pry'
+
 def game_hash
   {
     home: {
@@ -127,3 +130,106 @@ def game_hash
 end
 
 # Write code here
+
+
+
+def num_points_scored(name)
+  
+  player = game_hash[:away][:players].find { |player| player[:player_name] == name}
+  if player 
+    return player[:points]
+  end
+  
+  player = game_hash[:home][:players].find { |player| player[:player_name] == name}
+  if player
+    return player[:points]
+  end
+end
+
+
+
+def shoe_size(name)
+  
+  player = game_hash[:away][:players].find { |player| player[:player_name] == name }
+  if player 
+    return player[:shoe]
+  end
+  
+   player = game_hash[:home][:players].find { |player| player[:player_name] == name }
+  if player 
+    return player[:shoe]
+  end
+end
+
+
+
+def team_colors(name)
+  
+  if game_hash[:away][:team_name] == name
+   return game_hash[:away][:colors]
+  end
+  if game_hash[:home][:team_name] == name
+   return game_hash[:home][:colors]
+  end
+end
+
+
+def team_names
+  
+  teams = []
+  away = game_hash[:away][:team_name]
+  home = game_hash[:home][:team_name]
+  
+  teams.push(away, home)
+  return teams
+end
+
+
+
+def team_numbers(team_name, location)
+  
+  team = game_hash[location][:team_name]
+  if team == team_name
+    player_numbers = game_hash[location][:players].map { |player| player[:number] }
+    return player_numbers
+  end
+end
+
+
+def player_numbers(team_name)
+  
+  result = team_numbers(team_name, :home)
+  if result
+    return result
+  end
+  team_numbers(team_name, :away)
+end
+
+
+
+def player_stats(name)
+  
+  player = game_hash[:away][:players].find { |player| player[:player_name] == name }
+  if player 
+    return player
+  end
+  
+   player = game_hash[:home][:players].find { |player| player[:player_name] == name }
+  if player 
+    return player
+  end
+end
+
+
+def big_shoe_rebounds
+  
+  players = game_hash[:away][:players].concat(game_hash[:home][:players])
+  
+  player_biggest_shoe = players.max { |player1, player2| player1[:shoe] <=> player2[:shoe] }
+  return player_biggest_shoe[:rebounds]
+end
+
+
+
+
+
